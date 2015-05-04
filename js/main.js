@@ -21,6 +21,12 @@ $(function(){
     
     $('.bottom.sidebar').sidebar('toggle');
   });
+  
+  $('#sendButton').click(function(ev){
+    ev.preventDefault();
+    
+    console.log($('form#result').serializeObject());
+  });
 });
 
 function inputs_from_result(obj, val, max_depth, depth, original, parent){
@@ -97,7 +103,7 @@ function handleFileSelect(input){
     file = input.files[0];
     fr = new FileReader();
     fr.onload = function(){
-      $('#result').append(inputs_from_result(JSON.parse(this.result)));
+      $('#result').html(inputs_from_result(JSON.parse(this.result)));
     };
     //fr.readAsText(file);
     fr.readAsText(file);

@@ -6,10 +6,12 @@
   <link rel="stylesheet" href="css/semantic.min.css" />
   <link rel="stylesheet" href="css/semantic.override.css" />
   <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/jquery.serialize-object.min.js"></script>
   <script type="text/javascript" src="js/semantic.min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body class="pushable">
+
   <div class="ui inverted black fixed main menu collapsed-items">
     <span class="item title">Curl JSON GUI</span>
     <a href="#" class="item right">
@@ -25,6 +27,7 @@
       <i onClick="win.reload()" class="bordered inverted refresh icon link"></i>
     </a>
   </div>
+  
   <div class="ui bottom inverted sidebar menu">
     <a href="#" class="item opener"><i class="bordered inverted angle double up icon link"></i></a>
     <span class="item">
@@ -33,20 +36,21 @@
         <input type="text" placeholder="url" />
       </div>
     </span>
-    <span class="item">test</span>
-    <span class="item"><button class="ui green button">Send</button></span>
+    <span class="item"><button id="sendButton" class="ui green button">Send</button></span>
   </div>
+  
   <div class="pusher">
     <div class="ui inverted transparent segment">
-      <h2>Import case data:</h2>
+      <h2>Import JSON data:</h2>
       <div class="ui inverted left icon input">
         <i class="file icon"></i>
         <input id="jsonFile" type="file" />
       </div>
-      <div id="result" class="ui inverted segment">
-        <pre></pre>
-      </div>
+      <form id="result" class="ui inverted segment">
+        <!-- RESULT GOES HERE -->
+      </form>
     </div>
   </div>
+  
 </body>
 </html>
