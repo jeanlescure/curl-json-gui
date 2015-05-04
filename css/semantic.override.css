@@ -97,3 +97,6 @@ div.ui.segment.transparent{
   will-change:opacity;
   z-index:1000;
 }
+.result-input-holder{
+  padding:0 0 5px 0;
+}

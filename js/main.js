@@ -23,6 +23,61 @@ $(function(){
   });
 });
 
+function inputs_from_result(obj, val, max_depth, depth, original, parent){
+  if (typeof max_depth === 'undefined') var max_depth = 2;
+  
+  if (typeof depth === 'undefined'){
+    var depth = 0;
+  }else{
+    depth += 1;
+  }
+
+  if (typeof original === 'undefined'){ 
+    var original = obj;
+    var original_skip = true;
+  }
+
+  var objKeys = Object.keys( obj ).filter(function( key ) {
+    return ( Object.prototype.toString.call(obj[key]) === '[object Object]' );
+  });
+  
+  var result_vals = [];
+  
+  var result_keys = Object.keys( obj ).filter(function( key ) {
+    var fit = ( Object.prototype.toString.call(obj[key]) !== '[object Object]' );
+    
+    if (fit) result_vals.push(obj[key]);
+    
+    return fit;
+  });
+  
+  var has_parent = typeof parent !== 'undefined';
+  
+  var result = '<div class="ui inverted segment">';
+  
+  for (var idx in result_keys){
+    if ( has_parent ){
+      result_keys[idx] = "[" + result_keys[idx] + "]";
+      result_keys[idx] = parent + result_keys[idx];
+    }
+    result = result + '<div class="result-input-holder"><div class="ui inverted labeled input"><div class="ui label">' + result_keys[idx] + ': </div><input type="text" name="' + result_keys[idx] + '" value="' + result_vals[idx] + '" /></div></div>'
+  }
+  
+  for ( var idx in objKeys ){
+    var key = objKeys[idx];
+    var parent_key = key;
+    if ( has_parent ){
+      parent_key = "[" + key + "]";
+      parent_key = parent + parent_key;
+    }
+    
+    if ( (obj != original || typeof original_skip !== 'undefined') && depth < max_depth ) 
+      result = result + '<h4 class="ui dividing header">' + parent_key + '</h4>' + inputs_from_result(obj[key], val, max_depth, depth, original, parent_key);
+  }
+  
+  return result + '</div>';
+}
+
 function handleFileSelect(input){
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
     alert('The File APIs are not fully supported in this browser.');
@@ -42,7 +97,7 @@ function handleFileSelect(input){
     file = input.files[0];
     fr = new FileReader();
     fr.onload = function(){
-      $('#result pre').append(this.result);
+      $('#result').append(inputs_from_result(JSON.parse(this.result)));
     };
     //fr.readAsText(file);
     fr.readAsText(file);
