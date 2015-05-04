@@ -1,0 +1,11 @@
+{
+  "name": "case_creator",
+  "version": "0.0.1",
+  "main": "index.html",
+  "window": {
+    "toolbar": false,
+    "frame": false,
+    "width": 800,
+    "height": 500
+  }
+}
