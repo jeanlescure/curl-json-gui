@@ -1,5 +1,6 @@
 var gui = require('nw.gui');
 var win = gui.Window.get();
+var fs = require('fs');
 
 $(function(){
   $('#jsonFile').change(function(ev){
@@ -25,7 +26,7 @@ $(function(){
   $('#sendButton').click(function(ev){
     ev.preventDefault();
     
-    console.log($('form#result').serializeObject());
+    save_json($('form#result').serializeObject());
   });
 });
 
@@ -78,7 +79,7 @@ function inputs_from_result(obj, val, max_depth, depth, original, parent){
     }
     
     if ( (obj != original || typeof original_skip !== 'undefined') && depth < max_depth ) 
-      result = result + '<h4 class="ui dividing header">' + parent_key + '</h4>' + inputs_from_result(obj[key], val, max_depth, depth, original, parent_key);
+      result = result + '<h4 class="ui inverted dividing header">' + parent_key + '</h4>' + inputs_from_result(obj[key], val, max_depth, depth, original, parent_key);
   }
   
   return result + '</div>';
@@ -108,6 +109,13 @@ function handleFileSelect(input){
     //fr.readAsText(file);
     fr.readAsText(file);
   }
+}
+
+function save_json(json){
+  fs.writeFile('data.json', JSON.stringify(json), function (err) {
+    if (err) throw err;
+    console.log('It\'s saved!');
+  });
 }
 
 /*
