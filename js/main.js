@@ -3,7 +3,7 @@ var win = gui.Window.get();
 var fs = require('fs');
 
 $(function(){
-  $('#jsonFile').change(function(ev){
+  $('body').on('change', '#jsonFile', function(ev){
     handleFileSelect(this);
     $('.import.json.modal').modal('hide');
   });
@@ -38,7 +38,12 @@ $(function(){
   
   $('.tabular.menu .item').tab();
   
-  $('.import.json.modal').modal('attach events', '.import.json.shower', 'show');
+  $('.import.json.modal')
+    .modal('attach events', '.import.json.shower', 'show')
+    .modal('setting', 'onShow', function(){
+      $('#jsonFile').remove();
+      $('#jsonFileHolder').append('<input id="jsonFile" type="file" />');
+    });
   
   $('body').on('focus', '#result .input > input', function(ev) {
     $(this).parent().addClass('fluid');
