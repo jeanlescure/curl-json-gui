@@ -27,7 +27,13 @@ $(function(){
   $('#sendButton').click(function(ev){
     ev.preventDefault();
     
-    save_json($('form#result').serializeObject(), 'data.json');
+    write_json($('form#result').serializeObject(), 'data.json');
+  });
+  
+  $('.export.json').click(function(ev){
+    ev.preventDefault();
+    
+    save_json($('form#result').serializeObject(), 'user_data.json');
   });
   
   $('.tabular.menu .item').tab();
@@ -45,11 +51,14 @@ $(function(){
     reset_result();
   });
   
+  $('.error.modal').modal();
+  
   reset_result();
 });
 
 function reset_result(){
   $('#result').html('(Click on "Import JSON" or "Input JSON Manually" to begin visualizing your data.)');
+  $('#result').removeClass('resolved');
 }
 
 function inputs_from_result(obj, val, max_depth, depth, original, parent){
@@ -127,17 +136,84 @@ function handleFileSelect(input){
     fr = new FileReader();
     fr.onload = function(){
       $('#result').html(inputs_from_result(JSON.parse(this.result)));
+      $('#result').addClass('resolved');
     };
     //fr.readAsText(file);
     fr.readAsText(file);
   }
 }
 
-function save_json(json, filename){
+function write_json(json, filename){
   fs.writeFile(filename, JSON.stringify(json), function (err) {
     if (err) throw err;
     console.log('It\'s saved!');
   });
+}
+
+function save_json(json, filename){
+  var dl = new Downloader();
+  
+  if ($('#result').is('.resolved')){
+    dl.save(JSON.stringify(json), filename, 'application/json');
+  }else{
+    $('.error.modal .header').html('No data!');
+    $('.error.modal .description').html('<p>Currently there\'s no data available to export.</p><p>Import or input manually some JSON data before exporting.</p>');
+    $('.error.modal').modal('show');
+  }
+}
+
+var Downloader = function(){
+    function click(node) {
+        var ev = document.createEvent("MouseEvents");
+        ev.initMouseEvent("click", true, false, self, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        return node.dispatchEvent(ev);
+    };
+    
+    function encode(data, contentType) {
+        var blob = b64toBlob(btoa(data), contentType);
+        return blob;
+    };
+    
+    function link(data, name){
+        var a = document.createElement('a');
+        a.href = window.URL.createObjectURL(data);
+        a.download = name;
+        return a;
+    };
+    
+    this.save = function(data, name, contentType){
+        click(
+            link(
+                encode( data, contentType ),
+                name
+            )
+        )
+    };
+};
+
+
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
 }
 
 /*

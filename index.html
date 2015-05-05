@@ -65,24 +65,47 @@
     </div>
   </div>
   
+  <div class="ui error basic modal">
+    <i class="close icon"></i>
+    <div class="header">
+      <!-- ERROR HEADER GOES HERE -->
+    </div>
+    <div class="content">
+      <div class="image">
+        <i class="red warning sign icon"></i>
+      </div>
+      <div class="description">
+        <!-- ERROR DESCRIPTION GOES HERE -->
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui fluid basic inverted cancel button">
+        OK
+      </div>
+    </div>
+  </div>
+  
   <div class="pusher">
     <div class="ui inverted transparent segment">
       <div class="ui inverted top attached tabular menu">
         <a class="active item" data-tab="json-data">JSON Data</a>
         <a class="item" data-tab="headers">Headers</a>
       </div>
+      
       <div class="ui inverted bottom attached active tab segment" data-tab="json-data">
         <div class="ui inverted menu">
           <a href="#" class="import json shower item"><i class="inverted file text outline icon"></i> Import JSON</a>
           <a href="#" class="item"><i class="inverted edit icon"></i> Input JSON Manually</a>
-          <a href="#" class="item"><i class="inverted external icon"></i> Export JSON</a>
+          <a href="#" class="export json item"><i class="inverted external icon"></i> Export JSON</a>
           <a href="#" class="empty json right item"><i class="inverted trash outline icon"></i> Clear</a>
         </div>
+        <div class="ui inverted divider"></div>
         <h2>JSON Data:</h2>
         <form id="result" class="ui inverted segment">
           <!-- RESULT GOES HERE -->
         </form>
       </div>
+      
       <div class="ui inverted bottom attached tab segment" data-tab="headers">
         <h2>Headers</h2>
       </div>

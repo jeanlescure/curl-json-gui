@@ -1,6 +1,14 @@
 {
   "name": "case_creator",
   "version": "0.0.1",
+  "description": "A packaged foo fooer for fooing foos",
+  "repository": { 
+    "type" : "git",
+    "url" : "https://github.com/jeanlescure/curl-json-gui.git"
+  },
+  "dependencies" : {
+    "ex-curl": "2.0.0"
+  },
   "main": "index.html",
   "single-instance": false,
   "window": {
