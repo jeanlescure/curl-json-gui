@@ -39,6 +39,9 @@ div.ui.segment.transparent{
 .ui.menu.bottom.sidebar{
   visibility:visible;
 }
+.ui.fixed.menu + .ui.grid {
+  padding-top: 1em;
+}
 .ui.menu .item.opener{
   display:block;
   position:absolute;
@@ -99,4 +102,29 @@ div.ui.segment.transparent{
 }
 .result-input-holder{
   padding:0 0 5px 0;
+}
+.ui.tabular.menu{
+  border:none;
+  background: transparent;
+}
+.ui.tabular.menu .item {
+  background-color: #3b3c3d;
+  border-left: 1px solid #555;
+  border-right: 1px solid #555;
+  border-top: 1px solid #555;
+  padding: .6em 1.4em;
+}
+.ui.inverted.menu .active.item {
+  background: #1b1c1d;
+  padding: .78571em .95em;
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
+  border-top: 1px solid #777;
+}
+.ui.inverted.attached.segment, .ui.inverted.block.segment {
+  border-color: #777;
+}
+.ui.tabular.menu + .bottom.attached.segment, 
+.ui.tabular.menu ~ .bottom.attached.segment + .bottom.attached.segment {
+  border-top: 1px solid #777;
 }

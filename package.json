@@ -5,6 +5,7 @@
   "single-instance": false,
   "window": {
     "title": "Curl JSON GUI",
+    "icon": "icon.png",
     "toolbar": false,
     "frame": false,
     "width": 800,

@@ -5,6 +5,7 @@ var fs = require('fs');
 $(function(){
   $('#jsonFile').change(function(ev){
     handleFileSelect(this);
+    $('.import.json.modal').modal('hide');
   });
   
   $('.bottom.sidebar')
@@ -26,9 +27,30 @@ $(function(){
   $('#sendButton').click(function(ev){
     ev.preventDefault();
     
-    save_json($('form#result').serializeObject());
+    save_json($('form#result').serializeObject(), 'data.json');
   });
+  
+  $('.tabular.menu .item').tab();
+  
+  $('.import.json.modal').modal('attach events', '.import.json.shower', 'show');
+  
+  $('body').on('focus', '#result .input > input', function(ev) {
+    $(this).parent().addClass('fluid');
+  });
+  $('body').on('blur', '#result .input > input', function(ev) {
+    $(this).parent().removeClass('fluid');
+  });
+  
+  $('.empty.json').click(function(){
+    reset_result();
+  });
+  
+  reset_result();
 });
+
+function reset_result(){
+  $('#result').html('(Click on "Import JSON" or "Input JSON Manually" to begin visualizing your data.)');
+}
 
 function inputs_from_result(obj, val, max_depth, depth, original, parent){
   if (typeof max_depth === 'undefined') var max_depth = 2;
@@ -111,8 +133,8 @@ function handleFileSelect(input){
   }
 }
 
-function save_json(json){
-  fs.writeFile('data.json', JSON.stringify(json), function (err) {
+function save_json(json, filename){
+  fs.writeFile(filename, JSON.stringify(json), function (err) {
     if (err) throw err;
     console.log('It\'s saved!');
   });
